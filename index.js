@@ -3,7 +3,7 @@ var cors = require('cors');
 var routes = require('./routes/routes');
 var auth = require('./routes/auth');
 const app = express();
-const port = 3002;
+const port = process.env.PORT || 3002;
 const dotenv = require('dotenv');
 const path = require('path');
 app.use(cors())
