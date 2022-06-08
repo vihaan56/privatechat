@@ -290,7 +290,7 @@ button {
     overflow:hidden;
   }
   .chatbox {
-    /* max-height: 100vh; */
+    height: 80vh;
     display: flex;
     flex-direction: column;
   }

@@ -13,7 +13,7 @@ import RightBubble from "./RightBubble";
 import DisplayUser from "./DisplayUser";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-const host = "https://chat-app90.herokuapp.com";
+const host = "http://192.168.121.224:3002";
 // https://chat-app90.herokuapp.com
 var socket;
 
@@ -110,6 +110,7 @@ const Chatbox = () => {
   const sendmessage = async(e)=>{
     e.preventDefault();
     var message =  e.target[0].value;
+    if(message === "") return;
     e.target[0].value = "";
 
     

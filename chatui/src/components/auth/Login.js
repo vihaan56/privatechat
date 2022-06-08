@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const host = "https://chat-app90.herokuapp.com";
+  const host = "http://localhost:3002";
   const [username,setusername] =useState("");
   const [password,setpassword] =useState("");
   const [loading,setLoading]  = useState(false);
