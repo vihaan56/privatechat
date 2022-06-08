@@ -39,7 +39,6 @@ router.post("/sendmessage", async (req, res) => {
           "INSERT INTO `singlechat`(`user1`, `user2`, `lastmessage`, `timestamp`) VALUES (?,?,?,?)",
           [uid, rid, -1, timestamp],
           (error, result) => {
-            console.log(result)
             var chatid = result.insertId;
             con.query(
               `INSERT INTO message(sender, content, chat_id, timestamp) VALUES (?,?,?,?)`,

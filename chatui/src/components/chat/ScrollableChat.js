@@ -3,7 +3,6 @@ import ScrollableFeed from "react-scrollable-feed";
 import LeftBubble from "./LeftBubble";
 import RightBubble from "./RightBubble";
 const ScrollableChat = ({ messages,id }) => {
-    console.log(messages)
   return (
     <ScrollableFeed>
       {messages &&
