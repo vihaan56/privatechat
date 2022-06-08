@@ -3,7 +3,7 @@ import axios from 'axios'
 import { Navigate, useNavigate } from "react-router-dom";
 
 const Login = () => {
-  const host = "http://localhost:3002";
+  const host = "https://chat-app90.herokuapp.com";
   const [username,setusername] =useState("");
   const [password,setpassword] =useState("");
   const [loading,setLoading]  = useState(false);
@@ -84,12 +84,12 @@ const Login = () => {
             <div className="form-floating my-2">
                 <input type="text" className="form-control" name="username" id="username"
                      placeholder="username" value={username} onChange={(e)=>setusername(e.target.value)} />
-                <label for="floatingInput">Username</label>
+                <label htmlFor="floatingInput">Username</label>
             </div>
             <div className="form-floating my-2">
                 <input type="password" className="form-control" name="password" id="password"
                     placeholder="Password" value={password} onChange={(e)=>setpassword(e.target.value)}/>
-                <label for="floatingPassword">Password</label>
+                <label htmlFor="floatingPassword">Password</label>
             </div>
 
             <button id="button" className="w-100 btn btn-lg btn-primary my-2" type="submit">

@@ -13,7 +13,7 @@ import RightBubble from "./RightBubble";
 import DisplayUser from "./DisplayUser";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-const host = "http://localhost:3002";
+const host = "https://chat-app90.herokuapp.com";
 
 var socket;
 
@@ -136,10 +136,10 @@ const Chatbox = () => {
           <div class="chat_top_container">Chat Room</div>
           <div id="chat_contain" class="chat_container">
             <ScrollableChat messages={messages} id={id}></ScrollableChat>
-            <div class="typing">
+            {/* <div class="typing">
               {istyping?"Typing...":""}
 
-            </div>
+            </div> */}
           </div>
           <div class="textarea_container">
             <div class="txt-mid">

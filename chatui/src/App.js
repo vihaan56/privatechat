@@ -9,13 +9,11 @@ import Login from './components/auth/Login'
 import DisplayUser from './components/chat/DisplayUser'
 import UserItem from './components/chat/UserItem';
 import Chatbox from './components/chat/Chatbox'
-import Basic from './components/basic/Basic'
 function App() {
   return (
     <div className="App">
      <BrowserRouter>
     <Routes>
-    <Route path = "/basic" element={<Basic></Basic>}></Route>
       <Route path="/login" element={<Login />} />
       <Route path="/displayuser" element={<DisplayUser />} />
       <Route path="/useritem" element={<UserItem />} />
