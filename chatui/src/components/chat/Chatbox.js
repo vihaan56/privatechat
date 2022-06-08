@@ -46,7 +46,7 @@ const Chatbox = () => {
     });
 
     const json = await response.json();
-
+    console.log("data",json)
     setmessages(json);
     setLoading(false);
     socket.emit("join chat", id);
@@ -88,7 +88,6 @@ const Chatbox = () => {
     return <Navigate to="/login"></Navigate>;
   }
 
-  
   const _handleKeyDown = async (e) => {
     if (!typing) {
       setTyping(true);
@@ -133,39 +132,162 @@ const Chatbox = () => {
     <div>
       <div class="chatbox-container">
         <div class="full-container">
-          <div class="chat_top_container">Chat Room</div>
-          <div id="chat_contain" class="chat_container">
-            <ScrollableChat messages={messages} id={id}></ScrollableChat>
-            {/* <div class="typing">
-              {istyping?"Typing...":""}
+          <div style={{display:"none"}} class="main-1">
+            <div class="main1-chat_top_container">Vihaan Singla</div>
+            <div class="main1-usertopcontainer">
+              <div class="main-displayusers">
+                <div class="user">
+                  <div class="user-items">
+                    <div class="image">
+                      <span class="image-span">
+                        <img alt="#" class="user-image" src="./pic.jpg" />
+                      </span>
+                    </div>
+                    <div class="username">
+                      <div class="username-flex">
+                        <div class="name">vihaan singla</div>
+                        <div class="last-message">This is last message</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="user">
+                  <div class="user-items">
+                    <div class="image">
+                      <span class="image-span">
+                        <img alt="#" class="user-image" src="./pic.jpg" />
+                      </span>
+                    </div>
+                    <div class="username">
+                      <div class="username-flex">
+                        <div class="name">vihaan singla</div>
+                        <div class="last-message">This is last message</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
-            </div> */}
-          </div>
-          <div class="textarea_container">
-            <div class="txt-mid">
-              <div class="textarea">
-                <textarea
-                  id="textarea"
-                  autoCorrect="off"
-                  autoCapitalize="off"
-                  spellCheck="false"
-                  class="textarea"
-                  placeholder="Message..."
-                  rows="1"
-                  r_id={id}
-                  onKeyDown={_handleKeyDown}
-                ></textarea>
+                <div class="user">
+                  <div class="user-items">
+                    <div class="image">
+                      <span class="image-span">
+                        <img alt="#" class="user-image" src="./pic.jpg" />
+                      </span>
+                    </div>
+                    <div class="username">
+                      <div class="username-flex">
+                        <div class="name">vihaan singla</div>
+                        <div class="last-message">This is last message</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="user">
+                  <div class="user-items">
+                    <div class="image">
+                      <span class="image-span">
+                        <img alt="#" class="user-image" src="./pic.jpg" />
+                      </span>
+                    </div>
+                    <div class="username">
+                      <div class="username-flex">
+                        <div class="name">vihaan singla</div>
+                        <div class="last-message">This is last message</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="user">
+                  <div class="user-items">
+                    <div class="image">
+                      <span class="image-span">
+                        <img alt="#" class="user-image" src="./pic.jpg" />
+                      </span>
+                    </div>
+                    <div class="username">
+                      <div class="username-flex">
+                        <div class="name">vihaan singla</div>
+                        <div class="last-message">This is last message</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="user">
+                  <div class="user-items">
+                    <div class="image">
+                      <span class="image-span">
+                        <img alt="#" class="user-image" src="./pic.jpg" />
+                      </span>
+                    </div>
+                    <div class="username">
+                      <div class="username-flex">
+                        <div class="name">vihaan singla</div>
+                        <div class="last-message">This is last message</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="user">
+                  <div class="user-items">
+                    <div class="image">
+                      <span class="image-span">
+                        <img alt="#" class="user-image" src="./pic.jpg" />
+                      </span>
+                    </div>
+                    <div class="username">
+                      <div class="username-flex">
+                        <div class="name">vihaan singla</div>
+                        <div class="last-message">This is last message</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="send_button">
-                <button type="button" id="send"  class="submit">
-                  Send
-                </button>
+            </div>
+          </div>
+          <div class="main-2">
+            <div class="chatbox">
+              <div class="chat_top_container">Chat Box</div>
+              <div id="chat_contain" class="chat_container">
+                  <ScrollableChat messages={messages} id={id}></ScrollableChat>
+
+                {/* <div class="typing-bubble">
+        <div class="typing">Typing...</div>
+      </div>  */}
+              </div>
+
+              <div class="textarea_container">
+                <div class="txt-mid">
+                  <div class="textarea">
+                    <textarea
+                      id="textarea"
+                      r_id={id}
+                      onKeyDown={_handleKeyDown}
+                      autoCorrect="off"
+                      autoCapitalize="off"
+                      spellCheck="false"
+                      class="textarea"
+                      placeholder="Message..."
+                      rows="1"
+                    ></textarea>
+                  </div>
+                  <div class="send_button">
+                    <button type="button" id="send" class="submit">
+                      Send
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
 
+  
     </div>
   );
 };

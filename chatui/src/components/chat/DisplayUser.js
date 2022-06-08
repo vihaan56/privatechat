@@ -41,17 +41,91 @@ const [flag,setflag] = useState(false)
   }
 
   return (
-    <div className="container">
-      <div className="userbox">
-        <div className="style">
+
+<div>
+<div class="chatbox-container">
+
+    <div class="full-container">
+      <div class="main-1">
+
+        <div class="main1-chat_top_container">Users</div>
+        <div class="main1-usertopcontainer">
+          <div class="main-displayusers">
           {users.map((user) => {
             return (
               <UserItem user_id={user.user_id} name={user.name}></UserItem>
             );
           })}
+            
+
+          </div>
+        </div>
+
+
+
+      </div>
+      <div style={{display:"none"}} class="main-2">
+        <div class="chatbox">
+          <div class="chat_top_container">vihu singla</div>
+          <div id="chat_contain" class="chat_container">
+            <div class="left-bubble">
+              <div class="left_message">
+                <span class="left_text">vihaan singla is a good programmer vihaan singla is a good programmer</span>
+              </div>
+            </div>
+
+            <div class="right-bubble">
+              <div class="right_message">
+                <span class="right_text">vihaan singla is a good programmer vihaan singla is a good programmer vihaan
+                  singla is a good programmer vihaan singla is a good programmervihaan singla is a good programmervihaan
+                  singla is a good programmervihaan singla is a good programmer
+                  justifyjustifyjustifyjustifyjustify</span>
+              </div>
+            </div>
+            <div class="right-bubble">
+              <div class="right_message">
+                <span class="right_text">vihaan singla is a good programmer vihaan singla is a good programmer vihaan
+                  singla is a good programmer vihaan singla is a good programmervihaan singla is a good programmervihaan
+                  singla is a good programmervihaan singla is a good programmer
+                  justifyjustifyjustifyjustifyjustify</span>
+              </div>
+            </div>
+            <div class="right-bubble">
+              <div class="right_message">
+                <span class="right_text">Pet ch v gas je bni pai ae neend ni ani hale</span>
+              </div>
+            </div>
+
+            {/* <!-- <div class="typing-bubble">
+            <div class="typing">Typing...</div>
+          </div> --> */}
+          </div>
+
+          <div class="textarea_container">
+            <div class="txt-mid">
+              <div class="textarea">
+                <textarea id="textarea" autoCorrect="off" autoCapitalize="off" spellCheck="false" class="textarea"
+                  placeholder="Message..." rows="1"></textarea>
+              </div>
+              <div class="send_button">
+                <button type="button" id="send" class="submit">
+                  Send
+                </button>
+              </div>
+            </div>
+          </div>
+
         </div>
       </div>
     </div>
+    </div>
+
+
+
+
+
+   
+</div>
   );
 };
 

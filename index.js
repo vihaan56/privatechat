@@ -33,7 +33,7 @@ else{
 
 const server = app.listen(port,()=>{
 
-    console.log(`Example app listing at http://localhost:${port}`);
+    console.log(`Example app listing at https://chat-app90.herokuapp.com/:${port}`);
 })
 
 var io = require('socket.io')(server,{
@@ -45,16 +45,15 @@ var io = require('socket.io')(server,{
   io.on("connection",(socket)=>{
     socket.on("setup", (user_id) => {
           socket.join(user_id)
-        //   console.log("connected",socket.id)
       });
     
   socket.on("join chat", (room) => {
     socket.join(room);
-    console.log("User Joined Room: " + room);
+    // console.log("User Joined Room: " + room);
   });
 
   socket.on("new-message",(data)=>{
-        console.log("new message",data);
+        // console.log("new message",data);
         
         socket.in(data.id).emit("message recieved", data);
 
