@@ -13,7 +13,7 @@ import RightBubble from "./RightBubble";
 import DisplayUser from "./DisplayUser";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-const host = "https://chat-app90.herokuapp.com";
+const host = "http://localhost:3002";
 // https://chat-app90.herokuapp.com
 var socket;
 
@@ -108,11 +108,12 @@ const Chatbox = () => {
   //     var data = { json, id };
   //     socket.emit("new-message", data);
   //  }
-  const sendmessage = async(e)=>{
-    e.preventDefault();
-    var message =  e.target[0].value;
+  const sendmessage = async()=>{
+    var message =  typemessage;
+    var txtarea = document.getElementById("textarea");
+    txtarea.value="";
+    settypemessage("")
     if(message === "") return;
-    e.target[0].value = "";
 
     
     const response = await fetch(`${host}/api/v1/routes/sendmessage`, {
@@ -126,33 +127,36 @@ const Chatbox = () => {
     });
 
     const json = await response.json();
-    console.log(json)
 
     setmessages((messages) => [...messages, json[0]]);
     var data = { json, id };
     socket.emit("new-message", data);
+    txtarea.focus();
+  }
+  const handleChange = (e)=>{
+       settypemessage(e.target.value);
+
+       if (!typing) {
+        setTyping(true);
+        socket.emit("typing", { id, userid });
+      } else {
+        let lastTypingTime = new Date().getTime();
+        var timerLength = 2000;
+        setTimeout(() => {
+          var timeNow = new Date().getTime();
+          var timeDiff = timeNow - lastTypingTime;
+          if (timeDiff >= timerLength && typing) {
+            socket.emit("stop typing", { id, userid });
+            setTyping(false);
+          }
+        }, timerLength);
+      }
   }
   const _handleKeyDown = async (e) => {
-    // settypemessage(e.target.value);
-    if (!typing) {
-      setTyping(true);
-      socket.emit("typing", { id, userid });
-    } else {
-      let lastTypingTime = new Date().getTime();
-      var timerLength = 2000;
-      setTimeout(() => {
-        var timeNow = new Date().getTime();
-        var timeDiff = timeNow - lastTypingTime;
-        if (timeDiff >= timerLength && typing) {
-          socket.emit("stop typing", { id, userid });
-          setTyping(false);
-        }
-      }, timerLength);
-    }
 
     if (e.key === "Enter") {
+      settypemessage("")
       socket.emit("stop typing", { id, userid });
-
       var message = e.target.value;
       message = message.trim();
       if(message === ""){
@@ -211,7 +215,6 @@ const Chatbox = () => {
 
     
               </div>
-              <form onSubmit={sendmessage}>
 
               <div className="textarea_container">
                 <div className="txt-mid">
@@ -219,23 +222,24 @@ const Chatbox = () => {
                     <textarea
                       id="textarea"
                       r_id={id}
+                      onChange={handleChange}
                       onKeyDown={_handleKeyDown}
                       autoCorrect="off"
                       autoCapitalize="off"
                       spellCheck="false"
+                      value={typemessage}
                       className="textarea"
                       placeholder="Message..."
                       rows="1"
                     ></textarea>
                   </div>
                   <div className="send_button">
-                    <button type="submit" id="send"  className="submit">
+                    <button type="submit" id="send" onClick={sendmessage} className="submit">
                       Send
                     </button>
                   </div>
                 </div>
               </div>
-          </form>
             </div>
 
           </div>

@@ -16,7 +16,6 @@ const ScrollableChat = ({ messages,id }) => {
       {messages &&
         messages.map((message) => {
            var flag = emoji_regex.test(message.content)
-          console.log(flag)
           return message.sender == id ? (
                 (flag)?(<Rightemoji message={message.content}></Rightemoji>):(<RightBubble message={message.content}></RightBubble>)
           ) : (
