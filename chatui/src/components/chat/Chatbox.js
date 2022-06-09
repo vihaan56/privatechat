@@ -13,7 +13,7 @@ import RightBubble from "./RightBubble";
 import DisplayUser from "./DisplayUser";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-const host = "http://192.168.121.224:3002";
+const host = "https://chat-app90.herokuapp.com";
 // https://chat-app90.herokuapp.com
 var socket;
 
