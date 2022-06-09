@@ -1,4 +1,4 @@
-import axios from "axios";
+import "./styles/chatbox.css";
 import React, { useEffect, useState, useRef } from "react";
 import {
   BrowserRouter as Router,
@@ -14,14 +14,14 @@ import DisplayUser from "./DisplayUser";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
 const host = "https://chat-app90.herokuapp.com";
-// https://chat-app90.herokuapp.com
+// 
 var socket;
 
 socket = io(host);
 
 const Chatbox = () => {
   const [messages, setmessages] = useState([]);
-  const [typemessage,settypemessage] = useState("")
+  const [typemessage, settypemessage] = useState("");
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [selectchat, setselectchat] = useState(true);
@@ -35,7 +35,7 @@ const Chatbox = () => {
   }
 
   const getcompanies = async () => {
-    setLoading(true)
+    setLoading(true);
     const response = await fetch(`${host}/api/v1/routes/fetchchat`, {
       method: "POST",
       origin: true,
@@ -108,13 +108,12 @@ const Chatbox = () => {
   //     var data = { json, id };
   //     socket.emit("new-message", data);
   //  }
-  const sendmessage = async(e)=>{
+  const sendmessage = async (e) => {
     e.preventDefault();
-    var message =  e.target[0].value;
-    if(message === "") return;
+    var message = e.target[0].value;
+    if (message === "") return;
     e.target[0].value = "";
 
-    
     const response = await fetch(`${host}/api/v1/routes/sendmessage`, {
       method: "POST",
       origin: true,
@@ -126,12 +125,12 @@ const Chatbox = () => {
     });
 
     const json = await response.json();
-    console.log(json)
+    console.log(json);
 
     setmessages((messages) => [...messages, json[0]]);
     var data = { json, id };
     socket.emit("new-message", data);
-  }
+  };
   const _handleKeyDown = async (e) => {
     // settypemessage(e.target.value);
     if (!typing) {
@@ -155,10 +154,10 @@ const Chatbox = () => {
 
       var message = e.target.value;
       message = message.trim();
-      if(message === ""){
+      if (message === "") {
         return;
       }
-        
+
       e.target.value = "";
 
       const response = await fetch(`${host}/api/v1/routes/sendmessage`, {
@@ -184,172 +183,52 @@ const Chatbox = () => {
     <div>
       <div className="chatbox-container">
         <div className="full-container">
-          <div style={{display:"none"}} className="main-1">
+          <div style={{ display: "none" }} className="main-1">
             <div className="main1-chat_top_container">Vihaan Singla</div>
             <div className="main1-usertopcontainer">
-              <div className="main-displayusers">
-                <div className="user">
-                  <div className="user-items">
-                    <div className="image">
-                      <span className="image-span">
-                        <img alt="#" className="user-image" src="./pic.jpg" />
-                      </span>
-                    </div>
-                    <div className="username">
-                      <div className="username-flex">
-                        <div className="name">vihaan singla</div>
-                        <div className="last-message">This is last message</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="user">
-                  <div className="user-items">
-                    <div className="image">
-                      <span className="image-span">
-                        <img alt="#" className="user-image" src="./pic.jpg" />
-                      </span>
-                    </div>
-                    <div className="username">
-                      <div className="username-flex">
-                        <div className="name">vihaan singla</div>
-                        <div className="last-message">This is last message</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="user">
-                  <div className="user-items">
-                    <div className="image">
-                      <span className="image-span">
-                        <img alt="#" className="user-image" src="./pic.jpg" />
-                      </span>
-                    </div>
-                    <div className="username">
-                      <div className="username-flex">
-                        <div className="name">vihaan singla</div>
-                        <div className="last-message">This is last message</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="user">
-                  <div className="user-items">
-                    <div className="image">
-                      <span className="image-span">
-                        <img alt="#" className="user-image" src="./pic.jpg" />
-                      </span>
-                    </div>
-                    <div className="username">
-                      <div className="username-flex">
-                        <div className="name">vihaan singla</div>
-                        <div className="last-message">This is last message</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="user">
-                  <div className="user-items">
-                    <div className="image">
-                      <span className="image-span">
-                        <img alt="#" className="user-image" src="./pic.jpg" />
-                      </span>
-                    </div>
-                    <div className="username">
-                      <div className="username-flex">
-                        <div className="name">vihaan singla</div>
-                        <div className="last-message">This is last message</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="user">
-                  <div className="user-items">
-                    <div className="image">
-                      <span className="image-span">
-                        <img alt="#" className="user-image" src="./pic.jpg" />
-                      </span>
-                    </div>
-                    <div className="username">
-                      <div className="username-flex">
-                        <div className="name">vihaan singla</div>
-                        <div className="last-message">This is last message</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="user">
-                  <div className="user-items">
-                    <div className="image">
-                      <span className="image-span">
-                        <img alt="#" className="user-image" src="./pic.jpg" />
-                      </span>
-                    </div>
-                    <div className="username">
-                      <div className="username-flex">
-                        <div className="name">vihaan singla</div>
-                        <div className="last-message">This is last message</div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <div className="main-displayusers"></div>
             </div>
           </div>
           <div className="main-2">
             <div className="chatbox">
               <div className="chat_top_container">Chat Box</div>
               <div id="chat_contain" className="chat_container">
-
-                   {/* {
+                {/* {
                      loading?"Loading....":""
                    } */}
-                  <ScrollableChat messages={messages} id={id}>
+                <ScrollableChat messages={messages} id={id}></ScrollableChat>
 
-
-                  </ScrollableChat>
-
-                  {/* <div className="typing">Typing...</div> */}
-
-    
+                <div ref={messagesEndRef}></div>
+                {/* <div className="typing">Typing...</div> */}
               </div>
               <form onSubmit={sendmessage}>
-
-              <div className="textarea_container">
-                <div className="txt-mid">
-                  <div className="textarea">
-                    <textarea
-                      id="textarea"
-                      r_id={id}
-                      onKeyDown={_handleKeyDown}
-                      autoCorrect="off"
-                      autoCapitalize="off"
-                      spellCheck="false"
-                      className="textarea"
-                      placeholder="Message..."
-                      rows="1"
-                    ></textarea>
-                  </div>
-                  <div className="send_button">
-                    <button type="submit" id="send"  className="submit">
-                      Send
-                    </button>
+                <div className="textarea_container">
+                  <div className="txt-mid">
+                    <div className="textarea">
+                      <textarea
+                        id="textarea"
+                        r_id={id}
+                        onKeyDown={_handleKeyDown}
+                        autoCorrect="off"
+                        autoCapitalize="off"
+                        spellCheck="false"
+                        className="textarea"
+                        placeholder="Message..."
+                        rows="1"
+                      ></textarea>
+                    </div>
+                    <div className="send_button">
+                      <button type="submit" id="send" className="submit">
+                        Send
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
-          </form>
+              </form>
             </div>
-
           </div>
         </div>
       </div>
-
-  
     </div>
   );
 };

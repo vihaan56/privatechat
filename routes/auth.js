@@ -7,7 +7,6 @@ var jwt = require("jsonwebtoken");
 const JWT_TOKEN = "IAMVIHAANSINGLA";
 const fetchuserdata = require("../middlewares/fetchuserdata");
 
-
 router.post("/checktoken", fetchuserdata, async (req, res) => {
   if (req.user.status === "error") {
     res.send({ status: "error" });
@@ -120,6 +119,9 @@ router.post(
                   const data = {
                     user: {
                       id: result[0].user_id,
+                      name:result[0].name,
+                      surname:result[0].surname,
+                      username:username
                     },
                   };
                   const authtoken = jwt.sign(data, JWT_TOKEN);
@@ -210,6 +212,9 @@ router.post(
                         const data = {
                           user: {
                             id: success.insertId,
+                            name:name,
+                            surname:surname,
+                            username:username,
                           },
                         };
   

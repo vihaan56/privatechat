@@ -10,18 +10,18 @@ export default function UserItem({ name, user_id }) {
   return (
     <>
       
-        <div class="user">
+        <div className="user">
         <a href={param} key={user_id}>
-          <div class="user-items">
-            <div class="image">
-              <span class="image-span">
-                <img alt="#" class="user-image" src="https://cdn.pixabay.com/photo/2018/04/26/16/31/marine-3352341_960_720.jpg" />
+          <div className="user-items">
+            <div className="image">
+              <span className="image-span">
+                <img alt="#" className="user-image" src="https://cdn.pixabay.com/photo/2018/04/26/16/31/marine-3352341_960_720.jpg" />
               </span>
             </div>
-            <div class="username">
-              <div class="username-flex">
-                <div class="name">{name}</div>
-                <div class="last-message">Click to chat</div>
+            <div className="username">
+              <div className="username-flex">
+                <div className="name">{name}</div>
+                <div className="last-message">Click to chat</div>
               </div>
             </div>
           </div>
