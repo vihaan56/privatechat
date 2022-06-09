@@ -2,9 +2,9 @@ import React from "react";
 
 const leftemoji = ({ message }) => {
   return (
-    <div class="left-emoji-bubble">
-      <div class="l_emoji_message">
-        <span class="l_emoji">{message}</span>
+    <div className="left-emoji-bubble">
+      <div className="l_emoji_message">
+        <span className="l_emoji">{message}</span>
       </div>
     </div>
   );
