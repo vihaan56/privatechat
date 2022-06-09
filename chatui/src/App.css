@@ -19,15 +19,45 @@
   padding: 10px;
   border: 1px solid black;
 }
-.outer-wrapper a {
-}
+
 .user_name {
   margin-left: 20px;
 }
 
+.form {
+  display: flex;
+  align-items: center;
+  margin-top: 120px;
+  padding-bottom: 40px;
+}
+
+.form-signin {
+  width: 100%;
+  max-width: 330px;
+  padding: 15px;
+  margin: auto;
+}
+.heading-container {
+  border-bottom: solid 1px #d1d7dc;
+}
+.form-container {
+  margin-top: 30px;
+  /* border-bottom: solid 1px #d1d7dc; */
+  padding-bottom: 10px;
+}
+.form-control:focus {
+  box-shadow: none !important;
+}
+
+
+
+
+
 
 /* vihaan */
-
+body{
+  overflow: hidden;
+}
 .chatbox {
   max-height: 560px;
   display: flex;
@@ -94,7 +124,8 @@
   width: 100%;
   border-bottom: none;
   border-top: none;
-  height: 500px;
+  height:100%;
+  /* min-height:450px; */
   overflow: hidden auto;
 }
 .main-displayusers {
@@ -117,13 +148,13 @@
   margin-left: 12px;
   min-width: 33px;
   margin-top: 8px;
-  border-radius: 16px;
+  border-radius: 19px;
   background-color: #ffff;
   color: #262626;
   word-spacing: normal;
   word-break: normal;
   overflow-wrap: break-word;
-  padding: 12px 16px 12px 16px;
+  padding: 8px 12px 8px 12px;
   min-height: 24px;
   font-size: 14px;
   border: 1px solid #eae3e3;
@@ -133,8 +164,10 @@
   border: 1px solid #dbdbdb;
   width: 100%;
   border-top: none;
-  min-height: 90px;
+  min-height: 85px;
+  /* height:100%; */
   padding: 20px;
+  margin-bottom:0;
 }
 
 .textarea {
@@ -287,6 +320,7 @@ button {
 }
 a{
   text-decoration: none;
+  color:black;
 }
 a:hover{
   color:black;
@@ -295,10 +329,25 @@ a:hover{
   body{
     overflow:hidden;
   }
+  /* .main-2{
+    height:100vh;
+  } */
   .chatbox {
-    height: 80vh;
+    max-height: 93vh;
     display: flex;
     flex-direction: column;
+  }
+  .textarea_container{
+    border-bottom: none;
+    /* margin-top:10px; */
+    min-height:90px;
+    height:100%;
+    margin-bottom:8px;
+    /* padding:10px; */
+  }
+ 
+  #chat_contain{
+    height:700px;
   }
   .chatbox-container {
     width: 100%;
@@ -316,8 +365,7 @@ a:hover{
     /*   align-items: center; */
   }
   .main-1 {
-    width:100%;
-    max-width:100%;
-
+   width:100%;
+   max-width:100%;
   }
 }

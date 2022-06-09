@@ -35,6 +35,7 @@ const Chatbox = () => {
   }
 
   const getcompanies = async () => {
+    setLoading(true)
     const response = await fetch(`${host}/api/v1/routes/fetchchat`, {
       method: "POST",
       origin: true,
@@ -125,6 +126,7 @@ const Chatbox = () => {
     });
 
     const json = await response.json();
+    console.log(json)
 
     setmessages((messages) => [...messages, json[0]]);
     var data = { json, id };
@@ -303,6 +305,10 @@ const Chatbox = () => {
             <div className="chatbox">
               <div className="chat_top_container">Chat Box</div>
               <div id="chat_contain" className="chat_container">
+
+                   {/* {
+                     loading?"Loading....":""
+                   } */}
                   <ScrollableChat messages={messages} id={id}>
 
 
