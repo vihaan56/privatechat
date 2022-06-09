@@ -209,9 +209,8 @@ const Chatbox = () => {
                         id="textarea"
                         r_id={id}
                         onKeyDown={_handleKeyDown}
-                        autoCorrect="off"
+                       
                         autoCapitalize="off"
-                        spellCheck="false"
                         className="textarea"
                         placeholder="Message..."
                         rows="1"
