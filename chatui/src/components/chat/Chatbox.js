@@ -143,13 +143,13 @@ const Chatbox = () => {
       socket.emit("typing", { id, userid });
     } else {
       let lastTypingTime = new Date().getTime();
-      var timerLength = 4000;
+      var timerLength = 3000;
       setTimeout(() => {
         var timeNow = new Date().getTime();
         var timeDiff = timeNow - lastTypingTime;
         if (timeDiff >= timerLength && typing) {
-          socket.emit("stop typing", { id, userid });
           setTyping(false);
+          socket.emit("stop typing", { id, userid });
         }
       }, timerLength);
     }
