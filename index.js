@@ -74,11 +74,3 @@ var io = require('socket.io')(server,{
 
 
 
-
-
-
-// chat_id   1               2
-// isGroup   true            false
-// admin      1
-// Lastmessage -1
-// timestamp   2-2-2022
