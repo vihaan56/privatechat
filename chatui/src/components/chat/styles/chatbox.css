@@ -252,15 +252,41 @@ body {
     display: block;
   }
   .typing{
-    border: 1px solid #eae3e3;
+    /* border: 1px solid #eae3e3; */
     width:60px;
-    margin-left:13px;
+    margin-left:27px;
     border-radius:23px;
     margin-top:12px;
     margin-bottom:2px;
+    font-size:14px;
     /* display:none; */
   }
-  
+
+  .seen_s::after{
+    content: "";
+    clear: both;
+    display: block;
+  }
+  .seen{
+    float: right;
+    clear: both;
+    display: block;
+    /* max-width: 255px; */
+    margin-right: 16px;
+    min-width: 35px;
+    text-align:center;
+    margin-top:2px;
+    border-radius: 22px;
+    color: #b4aeae;
+    /* border:1px solid; */
+    word-spacing: normal;
+    word-break: normal;
+    /* padding: 12px 14px 12px 14px; */
+
+    overflow-wrap: break-word;
+    min-height: 25px;
+    font-size: 12px;
+  }
   .main-displayusers {
     /* padding:12px; */
   }

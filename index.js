@@ -52,6 +52,11 @@ var io = require('socket.io')(server,{
     // console.log("User Joined Room: " + room);
   });
 
+
+  socket.on("accpet-message",(recieve_id,sender_id)=>{
+    console.log("message recieve",recieve_id,sender_id)
+    socket.in(sender_id).emit("accept-message",recieve_id,sender_id);
+  })
   socket.on("new-message",(data)=>{
         // console.log("new message",data);
         

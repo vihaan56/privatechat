@@ -13,13 +13,11 @@ import LeftBubble from "./LeftBubble";
 import RightBubble from "./RightBubble";
 import Leftemoji from "./Leftemoji";
 import Rightemoji from "./Rightemoji";
-import Lottie from "react-lottie";
+// import Lottie from "react-lottie";
 import DisplayUser from "./DisplayUser";
 import animationData from "../animations/typing.json";
-import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-const host = "http://192.168.121.224:3002";
-
+const host = "http://localhost:3002";
 // https://chat-app90.herokuapp.com
 var socket;
 
@@ -32,6 +30,7 @@ const Chatbox = () => {
   const [selectchat, setselectchat] = useState(true);
   const [flag, setflag] = useState(false);
   const messagesEndRef = useRef(null);
+  const [seen,setseen] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   var userid;
@@ -95,9 +94,14 @@ const Chatbox = () => {
   }, []);
 
   useEffect(() => {
+    socket.on("accept-message",(r_id,s_id)=>{
+         setseen(true)
+    })
     socket.on("message recieved", (data) => {
-      if (data.id == userid && data.json[0].sender == id) {
+      setseen(false)
+      if (parseInt(data.id) === parseInt(userid) && parseInt(data.json[0].sender) === parseInt(id)) {
         setmessages((messages) => [...messages, data.json[0]]);
+        socket.emit("accpet-message",data.json[0].sender,userid);
       }
     });
   }, [socket]);
@@ -110,6 +114,7 @@ const Chatbox = () => {
     return <Navigate to="/login"></Navigate>;
   }
   const sendmessage = async (e) => {
+    setseen(false);
     document.getElementById("textarea").focus();
     e.preventDefault();
     var message = e.target[0].value;
@@ -130,6 +135,7 @@ const Chatbox = () => {
     e.target.value = "";
 
     setmessages((messages) => [...messages, json[0]]);
+    
     var data = { json, id };
     socket.emit("new-message", data);
   };
@@ -256,15 +262,14 @@ const Chatbox = () => {
                         <LeftBubble message={message.content}></LeftBubble>
                       );
                     })}
+
+                    {
+                      seen?(<div class="seen_s"><div class="seen">Seen</div></div>):""
+                    }
+
                     {istyping ? (
                   <div class="typing">
-                    <Lottie
-                      options={defaultOptions}
-                      // height={50}
-                      width={40}
-                      style={{ marginTop:0, marginLeft: 8 }}
-                    />
-                  </div>
+                   Typing...</div>
                 ) : (
                   ""
                 )}
