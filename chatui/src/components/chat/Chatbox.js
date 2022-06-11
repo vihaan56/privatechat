@@ -1,12 +1,10 @@
 import "./styles/chatbox.css";
 import React, { useEffect, useState, useRef } from "react";
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
+  BrowserRouter as 
   Navigate,
   useParams,
-  useNavigate,
+  
 } from "react-router-dom";
 import ScrollableFeed from "react-scrollable-feed";
 import LeftBubble from "./LeftBubble";
@@ -14,10 +12,9 @@ import RightBubble from "./RightBubble";
 import Leftemoji from "./Leftemoji";
 import Rightemoji from "./Rightemoji";
 // import Lottie from "react-lottie";
-import DisplayUser from "./DisplayUser";
 import animationData from "../animations/typing.json";
 import io from "socket.io-client";
-const host = "http://localhost:3002";
+const host = "https://chat-app90.herokuapp.com";
 // https://chat-app90.herokuapp.com
 var socket;
 
@@ -26,8 +23,8 @@ socket = io(host);
 const Chatbox = () => {
   const [messages, setmessages] = useState([]);
   const { id } = useParams();
-  const [loading, setLoading] = useState(true);
-  const [selectchat, setselectchat] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  // const [selectchat, setselectchat] = useState(true);
   const [flag, setflag] = useState(false);
   const messagesEndRef = useRef(null);
   const [seen,setseen] = useState(false);
@@ -50,7 +47,7 @@ const Chatbox = () => {
   }
 
   const getcompanies = async () => {
-    setLoading(true);
+    // setLoading(true);
     const response = await fetch(`${host}/api/v1/routes/fetchchat`, {
       method: "POST",
       origin: true,
@@ -63,7 +60,7 @@ const Chatbox = () => {
 
     const json = await response.json();
     setmessages(json);
-    setLoading(false);
+    // setLoading(false);
     socket.emit("join chat", id);
   };
 
@@ -139,49 +136,6 @@ const Chatbox = () => {
     var data = { json, id };
     socket.emit("new-message", data);
   };
-  // const sendmessage = async()=>{
-  //   var message =  typemessage;
-  //   var txtarea = document.getElementById("textarea");
-  //   txtarea.value="";
-  //   settypemessage("")
-  //   if(message === "") return;
-
-  //   const response = await fetch(`${host}/api/v1/routes/sendmessage`, {
-  //     method: "POST",
-  //     origin: true,
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-
-  //     body: JSON.stringify({ user_id: userid, r_id: id, message: message }),
-  //   });
-
-  //   const json = await response.json();
-
-  //   setmessages((messages) => [...messages, json[0]]);
-  //   var data = { json, id };
-  //   socket.emit("new-message", data);
-  //   txtarea.focus();
-  // }
-  // const handleChange = (e) => {
-  //   settypemessage(e.target.value);
-
-  //   if (!typing) {
-  //     setTyping(true);
-  //     socket.emit("typing", { id, userid });
-  //   } else {
-  //     let lastTypingTime = new Date().getTime();
-  //     var timerLength = 2000;
-  //     setTimeout(() => {
-  //       var timeNow = new Date().getTime();
-  //       var timeDiff = timeNow - lastTypingTime;
-  //       if (timeDiff >= timerLength && typing) {
-  //         socket.emit("stop typing", { id, userid });
-  //         setTyping(false);
-  //       }
-  //     }, timerLength);
-  //   }
-  // };
 
   const _handleKeyDown = async (e) => {
     if (!typing) {
@@ -264,11 +218,11 @@ const Chatbox = () => {
                     })}
 
                     {
-                      seen?(<div class="seen_s"><div class="seen">Seen</div></div>):""
+                      seen?(<div className="seen_s"><div className="seen">Seen</div></div>):""
                     }
 
                     {istyping ? (
-                  <div class="typing">
+                  <div className="typing">
                    Typing...</div>
                 ) : (
                   ""
