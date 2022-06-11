@@ -80,11 +80,13 @@ const Chatbox = () => {
       socket.emit("setup", userid);
       socket.on("typing", (uid) => {
         if (uid == id) {
+          // setTyping(true)
           setIsTyping(true);
         }
       });
       socket.on("stop typing", (uid) => {
         if (uid == id) {
+          // setTyping(false);
           setIsTyping(false);
         }
       });
@@ -113,6 +115,7 @@ const Chatbox = () => {
     var message = e.target[0].value;
     if (message === "") return;
     e.target[0].value = "";
+    socket.emit("stop typing", { id, userid });
     const response = await fetch(`${host}/api/v1/routes/sendmessage`, {
       method: "POST",
       origin: true,
