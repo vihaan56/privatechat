@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import UserItem from "./UserItem";
 import { Navigate } from "react-router-dom";
 const DisplayUser = () => {
-  const host = "http://192.168.121.224:3002";
+  const host = "https://chat-app90.herokuapp.com";
   var userid;
   const [users, setusers] = useState([]);
   const [flag, setflag] = useState(false);

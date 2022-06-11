@@ -9,7 +9,7 @@ import Rightemoji from "./Rightemoji";
 // import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
 import io from "socket.io-client";
-const host = "http://192.168.121.224:3002";
+const host = "https://chat-app90.herokuapp.com";
 //https://chat-app90.herokuapp.com
 var socket;
 
