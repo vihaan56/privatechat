@@ -66,6 +66,15 @@ router.post("/sendmessage", async (req, res) => {
     }
   );
 });
+router.post('/usersdata',async (req,res)=>{
+
+  var id = req.body.user_id;
+  con.query(`SELECT user_id,name from users WHERE user_id=?`,[id],(error, result)=>{
+      if(result.length > 0){
+        res.json(result);
+      }
+  })
+})
 router.get('/cookie',(req,res)=>{
 
    res.cookie("name","vihaan",{domain:"http://localhost:3000/"})

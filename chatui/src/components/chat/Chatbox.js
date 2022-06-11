@@ -9,8 +9,8 @@ import Rightemoji from "./Rightemoji";
 // import Lottie from "react-lottie";
 import animationData from "../animations/typing.json";
 import io from "socket.io-client";
-const host = "https://chat-app90.herokuapp.com";
-// 
+const host = "http://192.168.121.224:3002";
+//https://chat-app90.herokuapp.com
 var socket;
 
 socket = io(host);
@@ -25,6 +25,7 @@ const Chatbox = () => {
   const [seen, setseen] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
+  const [name,setname] = useState("");
   var userid,
     timeout = undefined;
 
@@ -42,7 +43,7 @@ const Chatbox = () => {
     userid = localStorage.getItem("userid");
   }
 
-  const getcompanies = async () => {
+  const getchat = async () => {
     // setLoading(true);
     const response = await fetch(`${host}/api/v1/routes/fetchchat`, {
       method: "POST",
@@ -64,14 +65,31 @@ const Chatbox = () => {
     messagesEndRef.current?.scrollToBottom();
   };
   //  getcompanies()
-  useEffect(() => {
+
+  const getname = async ()=> {
+
+
+    const response = await fetch(`${host}/api/v1/routes/usersdata`, {
+      method: "POST",
+      origin: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: id }),
+    });
+    const json = await response.json();
+    setname(json[0].name);
+  }
+  useEffect( () => {
+    
+
     if (localStorage.getItem("token") == null) {
       setflag(true);
     } else {
       userid = localStorage.getItem("userid");
       socket.emit("setup", userid);
-
-      getcompanies();
+      getname();
+      getchat();
     }
   }, []);
 
@@ -193,7 +211,7 @@ const Chatbox = () => {
           </div>
           <div className="main-2">
             <div className="chatbox">
-              <div className="chat_top_container">Chat Box</div>
+              <div className="chat_top_container">{name}</div>
               <div id="chat_contain" className="chat_container">
                 {/* {
                      loading?"Loading....":""
@@ -223,7 +241,7 @@ const Chatbox = () => {
                   ) : (
                     ""
                   )}
-                 {istyping ? <div className="typing">Typing...</div> : ""}
+                  <div className="typing">{istyping ? "Typing..." : ""}</div>
                 </ScrollableFeed>
 
                 {/* <ScrollableChat messages={messages} id={id}></ScrollableChat> */}

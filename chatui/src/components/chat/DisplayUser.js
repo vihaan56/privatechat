@@ -2,10 +2,11 @@ import React, { useState, useEffect } from "react";
 import UserItem from "./UserItem";
 import { Navigate } from "react-router-dom";
 const DisplayUser = () => {
-  const host = "https://chat-app90.herokuapp.com";
+  const host = "http://192.168.121.224:3002";
   var userid;
   const [users, setusers] = useState([]);
   const [flag, setflag] = useState(false);
+  const [name,setname] = useState("")
   const getcompanies = async () => {
     const response = await fetch(`${host}/api/v1/routes/getallusers`, {
       method: "POST", // *GET, POST, PUT, DELETE, etc.
@@ -24,11 +25,24 @@ const DisplayUser = () => {
 
     setusers(json);
   };
+  const getname = async ()=> {
 
+
+    const response = await fetch(`${host}/api/v1/routes/usersdata`, {
+      method: "POST",
+      origin: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: userid }),
+    });
+    const json = await response.json();
+    setname(json[0].name);
+  }
   useEffect(() => {
     if (localStorage.getItem("userid") != null) {
       userid = localStorage.getItem("userid");
-
+      getname();
       getcompanies();
     } else {
       setflag(true);
@@ -44,7 +58,7 @@ const DisplayUser = () => {
       <div className="chatbox-container">
         <div className="full-container">
           <div className="main-1">
-            <div className="main1-chat_top_container">Users</div>
+            <div className="main1-chat_top_container">{name}</div>
             <div className="main1-usertopcontainer">
               <div className="main-displayusers">
                 {users.map((user) => {
