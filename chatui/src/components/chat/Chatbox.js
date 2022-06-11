@@ -1,11 +1,6 @@
 import "./styles/chatbox.css";
 import React, { useEffect, useState, useRef } from "react";
-import {
-  BrowserRouter as 
-  Navigate,
-  useParams,
-  
-} from "react-router-dom";
+import { BrowserRouter as Navigate, useParams } from "react-router-dom";
 import ScrollableFeed from "react-scrollable-feed";
 import LeftBubble from "./LeftBubble";
 import RightBubble from "./RightBubble";
@@ -15,7 +10,7 @@ import Rightemoji from "./Rightemoji";
 import animationData from "../animations/typing.json";
 import io from "socket.io-client";
 const host = "https://chat-app90.herokuapp.com";
-// https://chat-app90.herokuapp.com
+// 
 var socket;
 
 socket = io(host);
@@ -27,10 +22,11 @@ const Chatbox = () => {
   // const [selectchat, setselectchat] = useState(true);
   const [flag, setflag] = useState(false);
   const messagesEndRef = useRef(null);
-  const [seen,setseen] = useState(false);
+  const [seen, setseen] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
-  var userid;
+  var userid,
+    timeout = undefined;
 
   var emoji_regex =
     /^(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])+$/;
@@ -74,31 +70,36 @@ const Chatbox = () => {
     } else {
       userid = localStorage.getItem("userid");
       socket.emit("setup", userid);
-      socket.on("typing", (uid) => {
-        if (uid == id) {
-          // setTyping(true)
-          setIsTyping(true);
-        }
-      });
-      socket.on("stop typing", (uid) => {
-        if (uid == id) {
-          // setTyping(false);
-          setIsTyping(false);
-        }
-      });
+
       getcompanies();
     }
   }, []);
 
   useEffect(() => {
-    socket.on("accept-message",(r_id,s_id)=>{
-         setseen(true)
-    })
+    socket.on("typing", (uid) => {
+      if (parseInt(uid) === parseInt(id)) {
+        // setTyping(true)
+        setIsTyping(true);
+      }
+    });
+    socket.on("stop typing", (uid) => {
+      if (parseInt(uid) === parseInt(id)) {
+        // setTyping(false);
+        setIsTyping(false);
+      }
+    });
+
+    socket.on("accept-message", (r_id, s_id) => {
+      setseen(true);
+    });
     socket.on("message recieved", (data) => {
-      setseen(false)
-      if (parseInt(data.id) === parseInt(userid) && parseInt(data.json[0].sender) === parseInt(id)) {
+      setseen(false);
+      if (
+        parseInt(data.id) === parseInt(userid) &&
+        parseInt(data.json[0].sender) === parseInt(id)
+      ) {
         setmessages((messages) => [...messages, data.json[0]]);
-        socket.emit("accpet-message",data.json[0].sender,userid);
+        socket.emit("accpet-message", data.json[0].sender, userid);
       }
     });
   }, [socket]);
@@ -132,28 +133,26 @@ const Chatbox = () => {
     e.target.value = "";
 
     setmessages((messages) => [...messages, json[0]]);
-    
+
     var data = { json, id };
     socket.emit("new-message", data);
   };
-
+  function timeoutfunction() {
+    setTyping(false);
+    socket.emit("stop typing", { id, userid });
+  }
   const _handleKeyDown = async (e) => {
     if (!typing) {
       setTyping(true);
       socket.emit("typing", { id, userid });
+      timeout = setTimeout(timeoutfunction, 5000);
     } else {
-      let lastTypingTime = new Date().getTime();
-      var timerLength = 3000;
-      setTimeout(() => {
-        var timeNow = new Date().getTime();
-        var timeDiff = timeNow - lastTypingTime;
-        if (timeDiff >= timerLength && typing) {
-          setTyping(false);
-          socket.emit("stop typing", { id, userid });
-        }
-      }, timerLength);
+      clearTimeout(timeout);
+      timeout = setTimeout(timeoutfunction, 5000);
     }
+
     if (e.key === "Enter") {
+      setseen(false);
       socket.emit("stop typing", { id, userid });
       var message = e.target.value;
       message = message.trim();
@@ -204,7 +203,7 @@ const Chatbox = () => {
                   {messages &&
                     messages.map((message) => {
                       var flag = emoji_regex.test(message.content);
-                      return message.sender == id ? (
+                      return parseInt(message.sender) === parseInt(id) ? (
                         flag ? (
                           <Rightemoji message={message.content}></Rightemoji>
                         ) : (
@@ -217,20 +216,17 @@ const Chatbox = () => {
                       );
                     })}
 
-                    {
-                      seen?(<div className="seen_s"><div className="seen">Seen</div></div>):""
-                    }
-
-                    {istyping ? (
-                  <div className="typing">
-                   Typing...</div>
-                ) : (
-                  ""
-                )}
+                  {seen ? (
+                    <div className="seen_s">
+                      <div className="seen">Seen</div>
+                    </div>
+                  ) : (
+                    ""
+                  )}
+                 {istyping ? <div className="typing">Typing...</div> : ""}
                 </ScrollableFeed>
 
                 {/* <ScrollableChat messages={messages} id={id}></ScrollableChat> */}
-                
               </div>
               <form onSubmit={sendmessage}>
                 <div className="textarea_container">
