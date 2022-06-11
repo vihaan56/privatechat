@@ -84,25 +84,7 @@ body {
     overflow: hidden auto;
     overscroll-behavior: contain;
   }
-  .typing {
-    float: left;
-    clear: both;
-    display: block;
-    max-width: 250px;
-    margin-left: 12px;
-    min-width: 33px;
-    margin-top: 8px;
-    border-radius: 19px;
-    background-color: #ffff;
-    color: #262626;
-    word-spacing: normal;
-    word-break: normal;
-    overflow-wrap: break-word;
-    padding: 8px 12px 8px 12px;
-    min-height: 24px;
-    font-size: 14px;
-    border: 1px solid #eae3e3;
-  }
+ 
   .textarea_container {
     display: flex;
     border: 1px solid #dbdbdb;
@@ -265,6 +247,14 @@ body {
     content: "";
     clear: both;
     display: block;
+  }
+  .typing{
+    border: 1px solid #eae3e3;
+    width:60px;
+    margin-left:13px;
+    border-radius:23px;
+    margin-top:12px;
+    /* display:none; */
   }
   
   .main-displayusers {

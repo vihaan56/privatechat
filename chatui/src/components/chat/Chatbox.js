@@ -8,12 +8,18 @@ import {
   useParams,
   useNavigate,
 } from "react-router-dom";
+import ScrollableFeed from "react-scrollable-feed";
 import LeftBubble from "./LeftBubble";
 import RightBubble from "./RightBubble";
+import Leftemoji from "./Leftemoji";
+import Rightemoji from "./Rightemoji";
+import Lottie from "react-lottie";
 import DisplayUser from "./DisplayUser";
+import animationData from "../animations/typing.json";
 import ScrollableChat from "./ScrollableChat";
 import io from "socket.io-client";
-const host = "https://chat-app90.herokuapp.com";
+const host = "http://192.168.121.224:3002";
+
 // https://chat-app90.herokuapp.com
 var socket;
 
@@ -21,7 +27,6 @@ socket = io(host);
 
 const Chatbox = () => {
   const [messages, setmessages] = useState([]);
-  const [typemessage, settypemessage] = useState("");
   const { id } = useParams();
   const [loading, setLoading] = useState(true);
   const [selectchat, setselectchat] = useState(true);
@@ -30,6 +35,17 @@ const Chatbox = () => {
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
   var userid;
+
+  var emoji_regex =
+    /^(?:[\u2700-\u27bf]|(?:\ud83c[\udde6-\uddff]){2}|[\ud800-\udbff][\udc00-\udfff]|[\u0023-\u0039]\ufe0f?\u20e3|\u3299|\u3297|\u303d|\u3030|\u24c2|\ud83c[\udd70-\udd71]|\ud83c[\udd7e-\udd7f]|\ud83c\udd8e|\ud83c[\udd91-\udd9a]|\ud83c[\udde6-\uddff]|[\ud83c[\ude01-\ude02]|\ud83c\ude1a|\ud83c\ude2f|[\ud83c[\ude32-\ude3a]|[\ud83c[\ude50-\ude51]|\u203c|\u2049|[\u25aa-\u25ab]|\u25b6|\u25c0|[\u25fb-\u25fe]|\u00a9|\u00ae|\u2122|\u2139|\ud83c\udc04|[\u2600-\u26FF]|\u2b05|\u2b06|\u2b07|\u2b1b|\u2b1c|\u2b50|\u2b55|\u231a|\u231b|\u2328|\u23cf|[\u23e9-\u23f3]|[\u23f8-\u23fa]|\ud83c\udccf|\u2934|\u2935|[\u2190-\u21ff])+$/;
+  const defaultOptions = {
+    loop: true,
+    autoplay: true,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   if (localStorage.getItem("userid") != null) {
     userid = localStorage.getItem("userid");
   }
@@ -63,10 +79,14 @@ const Chatbox = () => {
       userid = localStorage.getItem("userid");
       socket.emit("setup", userid);
       socket.on("typing", (uid) => {
-        if (uid == id) setIsTyping(true);
+        if (uid == id) {
+          setIsTyping(true);
+        }
       });
       socket.on("stop typing", (uid) => {
-        if (uid == id) setIsTyping(false);
+        if (uid == id) {
+          setIsTyping(false);
+        }
       });
       getcompanies();
     }
@@ -81,7 +101,7 @@ const Chatbox = () => {
   }, [socket]);
 
   useEffect(() => {
-    scrollToBottom();
+    messagesEndRef.current?.scrollToBottom();
   }, [messages]);
 
   if (flag) {
@@ -91,7 +111,7 @@ const Chatbox = () => {
     document.getElementById("textarea").focus();
     e.preventDefault();
     var message = e.target[0].value;
-    if(message === "") return;
+    if (message === "") return;
     e.target[0].value = "";
     const response = await fetch(`${host}/api/v1/routes/sendmessage`, {
       method: "POST",
@@ -153,14 +173,14 @@ const Chatbox = () => {
   //     }, timerLength);
   //   }
   // };
-  
+
   const _handleKeyDown = async (e) => {
     if (!typing) {
       setTyping(true);
       socket.emit("typing", { id, userid });
     } else {
       let lastTypingTime = new Date().getTime();
-      var timerLength = 2000;
+      var timerLength = 4000;
       setTimeout(() => {
         var timeNow = new Date().getTime();
         var timeDiff = timeNow - lastTypingTime;
@@ -216,37 +236,62 @@ const Chatbox = () => {
                 {/* {
                      loading?"Loading....":""
                    } */}
-                <ScrollableChat messages={messages} id={id}></ScrollableChat>
 
-                {/* <div className="typing">Typing...</div> */}
-              </div>
-           <form onSubmit={sendmessage}>
-              <div className="textarea_container">
-                <div className="txt-mid">
-                  <div className="textarea">
-                    <textarea
-                      id="textarea"
-                      r_id={id}
-                      autoFocus
-                      onKeyDown={_handleKeyDown}
-                      autoCapitalize="off"
-                      className="textarea"
-                      placeholder="Message..."
-                      rows="1"
-                    ></textarea>
+                <ScrollableFeed ref={messagesEndRef}>
+                  {messages &&
+                    messages.map((message) => {
+                      var flag = emoji_regex.test(message.content);
+                      return message.sender == id ? (
+                        flag ? (
+                          <Rightemoji message={message.content}></Rightemoji>
+                        ) : (
+                          <RightBubble message={message.content}></RightBubble>
+                        )
+                      ) : flag ? (
+                        <Leftemoji message={message.content}></Leftemoji>
+                      ) : (
+                        <LeftBubble message={message.content}></LeftBubble>
+                      );
+                    })}
+                    {istyping ? (
+                  <div class="typing">
+                    <Lottie
+                      options={defaultOptions}
+                      // height={50}
+                      width={40}
+                      style={{ marginTop:0, marginLeft: 8 }}
+                    />
                   </div>
-                  <div className="send_button">
-                    <button
-                      type="submit"
-                      id="send"
-                     
-                      className="submit"
-                    >
-                      Send
-                    </button>
+                ) : (
+                  ""
+                )}
+                </ScrollableFeed>
+
+                {/* <ScrollableChat messages={messages} id={id}></ScrollableChat> */}
+                
+              </div>
+              <form onSubmit={sendmessage}>
+                <div className="textarea_container">
+                  <div className="txt-mid">
+                    <div className="textarea">
+                      <textarea
+                        id="textarea"
+                        r_id={id}
+                        autoFocus
+                        onKeyDown={_handleKeyDown}
+                        autoCapitalize="off"
+                        className="textarea"
+                        placeholder="Message..."
+                        rows="1"
+                      ></textarea>
+                    </div>
+                    <div className="send_button">
+                      <button type="submit" id="send" className="submit">
+                        Send
+                      </button>
+                    </div>
                   </div>
                 </div>
-              </div>
               </form>
             </div>
           </div>
