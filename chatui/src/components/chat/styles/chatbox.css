@@ -154,7 +154,7 @@ body {
     float: right;
     clear: both;
     display: block;
-    max-width: 260px;
+    max-width: 40%;
     margin-right: 15px;
     min-width: 35px;
     margin-top: 8px;
@@ -227,7 +227,7 @@ body {
     float: left;
     clear: both;
     display: block;
-    max-width: 260px;
+    max-width: 40%;
     margin-left: 12px;
     min-width: 33px;
     margin-top: 8px;
