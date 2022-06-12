@@ -29,7 +29,7 @@ router.post(
     const phone = req.body.phone;
     const username = req.body.username
     const password = req.body.password;
-    var timestamp = Date.now();
+    var timestamp = new Date().toString();
 
     con.query(
       "SELECT * FROM `users` WHERE `username`=?",
@@ -175,7 +175,7 @@ router.post(
       const surname = req.body.surname;
       const phone = req.body.phone;
       const password = req.body.password;
-      const created_at = new Date().toLocaleDateString();
+      const created_at = new Date().toString();
       con.query(
         "SELECT * FROM `users` WHERE `username`=?",
         [username],

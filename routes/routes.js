@@ -6,9 +6,9 @@ router.post("/sendmessage", async (req, res) => {
   var uid = req.body.user_id;
   var rid = req.body.r_id;
   var mssg = req.body.message;
-  var timestamp = Date.now();
+  var timestamp = new Date().toString();
   
-  timestamp = Math.floor(timestamp / 1000);
+  // timestamp = Math.floor(timestamp / 1000);
   con.query(
     "SELECT * FROM `singlechat` WHERE (`user1`=? AND `user2`=?) OR (`user1`=? AND `user2`=?)",
     [uid, rid, rid, uid],
@@ -75,12 +75,7 @@ router.post('/usersdata',async (req,res)=>{
       }
   })
 })
-router.get('/cookie',(req,res)=>{
 
-   res.cookie("name","vihaan",{domain:"http://localhost:3000/"})
-   res.send("vihaan")
-
-})
 router.post("/getallusers", async (req, res) => {
   var uid = req.body.user_id;
   con.query(

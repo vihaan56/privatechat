@@ -2,6 +2,7 @@ import "./styles/chatbox.css";
 import React, { useEffect, useState, useRef } from "react";
 import { BrowserRouter as Navigate, useParams } from "react-router-dom";
 import ScrollableFeed from "react-scrollable-feed";
+import moment from "moment"
 import LeftBubble from "./LeftBubble";
 import RightBubble from "./RightBubble";
 import Leftemoji from "./Leftemoji";
@@ -16,9 +17,10 @@ var socket;
 socket = io(host);
 
 const Chatbox = () => {
+ 
   const [messages, setmessages] = useState([]);
   const { id } = useParams();
-  // const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   // const [selectchat, setselectchat] = useState(true);
   const [flag, setflag] = useState(false);
   const messagesEndRef = useRef(null);
@@ -44,7 +46,7 @@ const Chatbox = () => {
   }
 
   const getchat = async () => {
-    // setLoading(true);
+    setLoading(true);
     const response = await fetch(`${host}/api/v1/routes/fetchchat`, {
       method: "POST",
       origin: true,
@@ -57,7 +59,7 @@ const Chatbox = () => {
 
     const json = await response.json();
     setmessages(json);
-    // setLoading(false);
+    setLoading(false);
     socket.emit("join chat", id);
   };
 
@@ -134,6 +136,9 @@ const Chatbox = () => {
     document.getElementById("textarea").focus();
     e.preventDefault();
     var message = e.target[0].value;
+    var timestamp = new Date().toString();
+    var sendblock = [{sender:userid,content:message,id:id,timestamp:timestamp}];
+    setmessages((message)=>[...messages,sendblock[0]])
     if (message === "") return;
     e.target[0].value = "";
     socket.emit("stop typing", { id, userid });
@@ -149,8 +154,8 @@ const Chatbox = () => {
 
     const json = await response.json();
     e.target.value = "";
-
-    setmessages((messages) => [...messages, json[0]]);
+    // console.log(json);
+    // setmessages((messages) => [...messages, json[0]]);
 
     var data = { json, id };
     socket.emit("new-message", data);
@@ -173,6 +178,9 @@ const Chatbox = () => {
       setseen(false);
       socket.emit("stop typing", { id, userid });
       var message = e.target.value;
+      var timestamp = new Date().toString();
+      var sendblock = [{sender:userid,content:message,id:id,timestamp:timestamp}];
+      setmessages((message)=>[...messages,sendblock[0]])
       message = message.trim();
       if (message === "") {
         return;
@@ -193,12 +201,12 @@ const Chatbox = () => {
       const json = await response.json();
       e.target.value = "";
 
-      setmessages((messages) => [...messages, json[0]]);
+      // setmessages((messages) => [...messages, json[0]]);
       var data = { json, id };
       socket.emit("new-message", data);
     }
   };
-
+  // console.log(messages)
   return (
     <div>
       <div className="chatbox-container">
@@ -220,17 +228,18 @@ const Chatbox = () => {
                 <ScrollableFeed ref={messagesEndRef}>
                   {messages &&
                     messages.map((message) => {
+                      
                       var flag = emoji_regex.test(message.content);
                       return parseInt(message.sender) === parseInt(id) ? (
                         flag ? (
-                          <Rightemoji message={message.content}></Rightemoji>
+                          <Rightemoji timestamp={message.timestamp} message={message.content}></Rightemoji>
                         ) : (
-                          <RightBubble message={message.content}></RightBubble>
+                          <RightBubble timestamp={message.timestamp} message={message.content}></RightBubble>
                         )
                       ) : flag ? (
-                        <Leftemoji message={message.content}></Leftemoji>
+                        <Leftemoji timestamp={message.timestamp} message={message.content}></Leftemoji>
                       ) : (
-                        <LeftBubble message={message.content}></LeftBubble>
+                        <LeftBubble timestamp={message.timestamp} message={message.content}></LeftBubble>
                       );
                     })}
 
