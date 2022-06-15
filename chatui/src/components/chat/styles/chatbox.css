@@ -328,6 +328,7 @@ body {
   }
   .main-displayusers {
     /* padding:12px; */
+    overflow: auto;
   }
   .user-items {
     display: flex;

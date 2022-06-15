@@ -9,7 +9,7 @@ const LeftBubble = ({ timestamp,message }) => {
       <div className="left_message">
         <span className="left_text">{message}</span>
       </div>
-        <span className="left_time">{moment(date).startOf('seconds').fromNow()}</span>
+        {/* <span className="left_time">{moment(date).startOf('seconds').fromNow()}</span> */}
     </div>
   );
 };

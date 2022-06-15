@@ -7,7 +7,7 @@ const Rightemoji = ({timestamp,message}) => {
     <div className="r_emoji_message">
     <span className="r_emoji">{message}</span>
     </div>
-    <span className="right_time">{moment(timestamp).startOf('seconds').fromNow()}</span>
+    {/* <span className="right_time">{moment(timestamp).startOf('seconds').fromNow()}</span> */}
 
   </div>
   )

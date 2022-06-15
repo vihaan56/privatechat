@@ -10,8 +10,6 @@ const Login = () => {
   const [loading,setLoading]  = useState(false);
   const [flag,setflag] = useState(false)
   useEffect(()=>{
-    
-
     if (localStorage.getItem("token") != null) {
       const authaxios = axios.create({
         baseURL: host,

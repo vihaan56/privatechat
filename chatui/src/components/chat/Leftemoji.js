@@ -7,7 +7,7 @@ const leftemoji = ({ timestamp,message }) => {
       <div className="l_emoji_message">
         <span className="l_emoji">{message}</span>
       </div>
-      <span className="left_time">{moment(timestamp).startOf('seconds').fromNow()}</span>
+      {/* <span className="left_time">{moment(timestamp).startOf('seconds').fromNow()}</span> */}
     </div>
   );
 };
