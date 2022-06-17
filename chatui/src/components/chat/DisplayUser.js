@@ -40,7 +40,7 @@ const DisplayUser = () => {
     setname(json[0].name);
   }
   useEffect(() => {
-    if (localStorage.getItem("userid") != null) {
+    if (localStorage.getItem("authtoken") != null) {
       userid = localStorage.getItem("userid");
       getname();
       getcompanies();

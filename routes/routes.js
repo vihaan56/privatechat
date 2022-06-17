@@ -9,6 +9,7 @@ router.post("/sendmessage", async (req, res) => {
   var timestamp = new Date().toString();
   
   // timestamp = Math.floor(timestamp / 1000);
+
   con.query(
     "SELECT * FROM `singlechat` WHERE (`user1`=? AND `user2`=?) OR (`user1`=? AND `user2`=?)",
     [uid, rid, rid, uid],

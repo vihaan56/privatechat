@@ -10,15 +10,15 @@ const Login = () => {
   const [loading,setLoading]  = useState(false);
   const [flag,setflag] = useState(false)
   useEffect(()=>{
-    if (localStorage.getItem("token") != null) {
+    if (localStorage.getItem("authtoken") != null) {
       const authaxios = axios.create({
         baseURL: host,
         headers: {
-          "auth-token": localStorage.getItem("token"),
+          "auth-token": localStorage.getItem("authtoken"),
         },
       });
       const headers = {
-        auth: localStorage.getItem("token"),
+        auth: localStorage.getItem("authtoken"),
       };
       authaxios
         .post(`${host}/api/v1/secure/checktoken`, {
@@ -57,7 +57,7 @@ const Login = () => {
         const json = await response.json();
         setLoading(false);
         if(json.status === "success"){
-          localStorage.setItem("token", json.authtoken);
+          localStorage.setItem("authtoken", json.authtoken);
           localStorage.setItem("userid", json.userid);
         }
         }

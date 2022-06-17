@@ -83,7 +83,7 @@ body {
     display: flex;
     flex-direction: column;
     overflow: hidden auto;
-    overscroll-behavior: contain;
+   
   }
   .typing {
     float: left;
