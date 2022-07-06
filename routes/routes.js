@@ -3,10 +3,12 @@ const router = express.Router();
 const con = require("../connections/db");
 const moment = require("moment");
 router.post("/sendmessage", async (req, res) => {
+  console.log(req.body)
   var uid = req.body.user_id;
   var rid = req.body.r_id;
   var mssg = req.body.message;
   var timestamp = new Date().toString();
+
   
   // timestamp = Math.floor(timestamp / 1000);
 
@@ -14,6 +16,8 @@ router.post("/sendmessage", async (req, res) => {
     "SELECT * FROM `singlechat` WHERE (`user1`=? AND `user2`=?) OR (`user1`=? AND `user2`=?)",
     [uid, rid, rid, uid],
     (error, result) => {
+      console.log(result)
+
       if (result.length > 0) {
         con.query(
           `INSERT INTO message(sender, content, chat_id, timestamp) VALUES (?,?,?,?)`,
